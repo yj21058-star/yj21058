@@ -3,10 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>나의 첫 웹페이지</title>
+    <title>스터디온 | 온라인 학습 일정 관리</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>나의 첫 웹페이지</h1>
-    <p>안녕하세요! 처음 만든 웹페이지입니다.</p>
+    <!--
+    5주차: 4주차 반응형 페이지에 학습 계획 확인 기능을 추가했습니다.
+    사용자: 일과 학업을 병행하며 온라인 강의를 수강하는 대학생
+    목적: 강의와 과제 일정을 한곳에서 확인하고 학습 계획을 세우도록 돕는다.
+    핵심 행동: 서비스를 이해한 뒤 관심 과목과 주간 학습 목표를 입력한다.
+    정보 순서: 서비스 이름과 한 줄 소개 → 서비스 소개와 이미지 → 주요 기능 3개
+               → 이용 방법 3단계 → 학습 목표 입력 → 하단 정보
+    -->
+    <header id="top">
+        <h1>스터디온</h1>
+        <p>바쁜 하루에도 놓치지 않는 나의 온라인 학습 계획</p>
+        <nav aria-label="페이지 내부 메뉴">
+            <ul>
+                <li><a href="#about">서비스 소개</a></li>
+                <li><a href="#features">주요 기능</a></li>
+                <li><a href="#steps">이용 방법</a></li>
+                <li><a href="#start">학습 목표 입력</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="about">
+            <h2>서비스 소개</h2>
+            <p>스터디온은 온라인 강의와 과제 일정을 한곳에서 관리하도록 돕는 학습 계획 서비스입니다.</p>
+            <p>일과 학업을 병행하는 학생이 이번 주 할 일을 확인하고, 작은 목표부터 꾸준히 실천할 수 있도록 기획했습니다.</p>
+            <figure>
+                <img src="assets/images/service.svg" width="320" height="200"
+                     alt="스터디온 학습 계획 예시: 월요일 강의 듣기, 수요일 실습하기, 금요일 과제 확인하기">
+                <figcaption>스터디온의 주간 학습 계획 예시</figcaption>
+            </figure>
+        </section>
+        <section id="features">
+            <h2>주요 기능</h2>
+            <ul>
+                <li>
+                    <h3>강의 일정 모아보기</h3>
+                    <p>과목별 수강 일정과 이번 주 학습할 내용을 한눈에 확인합니다.</p>
+                </li>
+                <li>
+                    <h3>과제 마감일 확인</h3>
+                    <p>제출 기한과 준비할 자료를 함께 정리해 과제를 미리 준비합니다.</p>
+                </li>
+                <li>
+                    <h3>학습 목표 관리</h3>
+                    <p>일주일 동안 실천할 목표를 세우고 학습 진행 상황을 점검합니다.</p>
+                </li>
+            </ul>
+        </section>
+        <section id="steps">
+            <h2>이용 방법</h2>
+            <ol>
+                <li>관심 과목과 이번 주 학습 목표를 정합니다.</li>
+                <li>강의 일정과 과제 마감일을 기준으로 학습 계획을 세웁니다.</li>
+                <li>계획을 실천하고 주말에 완료한 내용을 확인합니다.</li>
+            </ol>
+        </section>
+        <section id="start">
+            <h2>학습 목표 입력</h2>
+            <p id="form-note">과목과 목표를 입력하고 계획 확인을 눌러보세요. 이메일은 선택 사항입니다. 입력 내용은 현재 화면에만 표시되며 새로고침하면 사라집니다. 서버 저장이나 이메일 발송은 하지 않습니다.</p>
+            <form id="plan-form" aria-describedby="form-note" novalidate>
+                <p>
+                    <label for="subject">관심 과목</label>
+                    <input type="text" id="subject" name="subject" required maxlength="60" aria-describedby="feedback" placeholder="예: UI/UX프로그래밍">
+                </p>
+                <p>
+                    <label for="goal">이번 주 학습 목표</label><br>
+                    <textarea id="goal" name="goal" required maxlength="300" aria-describedby="feedback" rows="3" cols="30" placeholder="예: 강의를 듣고 서비스 소개 페이지 완성하기"></textarea>
+                </p>
+                <!-- 4주차: 이메일 입력창과 버튼은 넓은 화면에서 가로, 768px 이하에서 세로 배치 -->
+                <label for="email">이메일 (선택)</label>
+                <div class="email-row">
+                    <input type="email" id="email" name="email" maxlength="254" aria-describedby="feedback" autocomplete="email" placeholder="예: student@example.com">
+                    <button id="confirm-button" type="submit">계획 확인</button>
+                </div>
+                <p id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">과목과 이번 주 목표를 입력해주세요.</p>
+                <div id="plan-preview" class="plan-preview" hidden>
+                    <h3>이번 주 나의 학습 계획</h3>
+                    <dl>
+                        <dt>관심 과목</dt><dd id="preview-subject"></dd>
+                        <dt>학습 목표</dt><dd id="preview-goal"></dd>
+                        <dt>이메일</dt><dd id="preview-email"></dd>
+                    </dl>
+                </div>
+                <button id="reset-button" class="secondary-button" type="reset">다시 입력</button>
+                <noscript><p>학습 계획 확인 기능을 사용하려면 브라우저에서 JavaScript를 켜주세요.</p></noscript>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>스터디온 | UI/UX프로그래밍 서비스 소개 실습</p>
+        <a href="#top">맨 위로 이동</a>
+    </footer>
 </body>
 </html>
