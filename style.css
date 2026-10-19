@@ -83,3 +83,16 @@ button:disabled, button:disabled:hover { background: #dce9e4; color: #355548; bo
 .plan-preview dd { margin: 2px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
 [hidden] { display: none !important; }
 @media (max-width: 768px) { .secondary-button { width: 100%; } .plan-preview { padding: 16px; } }
+
+/* 6주차: 선택 탭과 상태를 색상·문구·테두리로 구분 */
+select { width: 100%; max-width: 100%; min-width: 0; padding: 12px; border: 1px solid #8497a6; border-radius: 7px; font: inherit; background: white; color: #21354a; }
+select:focus-visible, [role="tabpanel"]:focus-visible { outline: 3px solid #c07808; outline-offset: 4px; }
+.tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 20px 0 16px; }
+.tabs button { min-width: 0; padding: 12px 8px; background: #fff; color: #125749; border: 1px solid #9eb9ad; }
+.tabs button[aria-selected="true"] { background: #125749; color: white; border-bottom: 4px solid #062e26; }
+.tool-panel { padding: 20px; border: 1px solid #ccd9e2; border-radius: 8px; }
+.tool-panel select { max-width: 360px; }
+.input-hint { display: block; font-size: 14px; color: #526273; margin-top: 5px; }
+.text-link { color: #125749; font-weight: bold; }
+[aria-pressed="true"] { box-shadow: 0 0 0 3px #b6d6c9; }
+@media (max-width: 768px) { .tool-panel { padding: 16px; } .tool-panel button { width: 100%; } .tabs button { font-size: 15px; } }
