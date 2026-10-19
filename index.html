@@ -9,7 +9,7 @@
 </head>
 <body>
     <!--
-    6주차: 5주차 학습 계획에 탭, 실시간 입력 안내, 학습 시간 선택을 추가했습니다.
+    7주차: 학습 도구를 유지하면서 시작 → 입력·선택 → 확인 → 완료의 흐름을 연결했습니다.
     사용자: 일과 학업을 병행하며 온라인 강의를 수강하는 대학생
     목적: 강의와 과제 일정을 한곳에서 확인하고 학습 계획을 세우도록 돕는다.
     핵심 행동: 서비스를 이해한 뒤 관심 과목과 주간 학습 목표를 입력한다.
@@ -25,7 +25,7 @@
                 <li><a href="#features">주요 기능</a></li>
                 <li><a href="#steps">이용 방법</a></li>
                 <li><a href="#workspace">학습 도구</a></li>
-                <li><a href="#start">학습 목표 입력</a></li>
+                <li><a href="#start">학습 계획 만들기</a></li>
             </ul>
         </nav>
     </header>
@@ -94,36 +94,39 @@
             </div>
         </section>
         <section id="start">
-            <h2>학습 목표 입력</h2>
-            <p id="form-note">과목과 목표를 입력하고 계획 확인을 눌러보세요. 이메일은 선택 사항입니다. 입력 내용은 현재 화면에만 표시되며 새로고침하면 사라집니다. 서버 저장이나 이메일 발송은 하지 않습니다.</p>
-            <form id="plan-form" aria-describedby="form-note" novalidate>
-                <p>
-                    <label for="subject">관심 과목</label>
-                    <input type="text" id="subject" name="subject" required maxlength="60" aria-describedby="feedback" placeholder="예: UI/UX프로그래밍">
-                </p>
-                <p>
-                    <label for="goal">이번 주 학습 목표</label><br>
-                    <textarea id="goal" name="goal" required maxlength="300" aria-describedby="feedback goal-count" rows="3" cols="30" placeholder="예: 강의를 듣고 서비스 소개 페이지 완성하기"></textarea>
-                    <span id="goal-count" class="input-hint">0 / 300자</span>
-                </p>
-                <!-- 4주차: 이메일 입력창과 버튼은 넓은 화면에서 가로, 768px 이하에서 세로 배치 -->
-                <label for="email">이메일 (선택)</label>
-                <div class="email-row">
-                    <input type="email" id="email" name="email" maxlength="254" aria-describedby="feedback" autocomplete="email" placeholder="예: student@example.com">
-                    <button id="confirm-button" type="submit">계획 확인</button>
-                </div>
-                <p id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">과목과 이번 주 목표를 입력해주세요.</p>
-                <div id="plan-preview" class="plan-preview" hidden>
-                    <h3>이번 주 나의 학습 계획</h3>
-                    <dl>
-                        <dt>관심 과목</dt><dd id="preview-subject"></dd>
-                        <dt>학습 목표</dt><dd id="preview-goal"></dd>
-                        <dt>이메일</dt><dd id="preview-email"></dd>
-                    </dl>
-                </div>
-                <button id="reset-button" class="secondary-button" type="reset">다시 입력</button>
-                <noscript><p>학습 계획 확인 기능을 사용하려면 브라우저에서 JavaScript를 켜주세요.</p></noscript>
+            <h2>주간 학습 계획 만들기</h2>
+            <p id="form-note">과목, 목표, 학습 시간을 정하고 내용을 확인해 계획을 완성하세요. 이 실습은 현재 화면에서만 동작하며, 새로고침하면 사라집니다. 서버 저장이나 이메일 발송은 하지 않습니다.</p>
+            <ol class="flow-progress" aria-label="학습 계획 진행 단계">
+                <li aria-current="step">1. 시작</li><li>2. 입력·선택</li><li>3. 확인</li><li>4. 완료</li>
+            </ol>
+            <p id="flow-status" class="input-hint" role="status" aria-live="polite">1 / 4 단계 · 시작</p>
+            <div id="flow-welcome" class="flow-panel">
+                <h3 tabindex="-1">이번 주에 실천할 목표 하나를 정해볼까요?</h3>
+                <p>완료 조건: 과목·목표·하루 학습 시간을 입력하고, 확인 화면에서 ‘계획 확정’을 누르면 완료됩니다.</p>
+                <button type="button" id="begin-button">학습 계획 시작</button>
+            </div>
+            <form id="plan-form" aria-describedby="form-note" novalidate hidden>
+                <h3 tabindex="-1">과목과 목표, 시간을 입력하세요</h3>
+                <p><label for="subject">관심 과목 (필수)</label><input type="text" id="subject" name="subject" required maxlength="60" aria-describedby="feedback" placeholder="예: UI/UX프로그래밍"></p>
+                <p><label for="goal">이번 주 학습 목표 (필수)</label><textarea id="goal" name="goal" required maxlength="300" aria-describedby="feedback goal-count" rows="3" placeholder="예: 강의 2개를 듣고 탭 UI 실습 완성하기"></textarea><span id="goal-count" class="input-hint">0 / 300자</span></p>
+                <p><label for="plan-time">하루 학습 시간 (필수)</label><select id="plan-time" name="minutes" required aria-describedby="feedback"><option value="">시간을 선택하세요</option><option value="20">20분</option><option value="40">40분</option><option value="60">60분</option></select></p>
+                <p><label for="email">이메일 (선택)</label><input type="email" id="email" name="email" maxlength="254" autocomplete="email" aria-describedby="feedback" placeholder="예: student@example.com"></p>
+                <p id="feedback" class="feedback" role="status" aria-live="polite" aria-atomic="true">필수 항목 3개를 입력해주세요.</p>
+                <div class="actions"><button type="button" id="back-start" class="secondary-button">이전: 시작</button><button id="confirm-button" type="submit">다음: 계획 확인</button><button id="reset-button" class="secondary-button" type="button">다시 시작</button></div>
             </form>
+            <div id="flow-review" class="flow-panel" hidden>
+                <h3 tabindex="-1">입력한 계획을 확인하세요</h3>
+                <div id="plan-preview" class="plan-preview"><dl><dt>관심 과목</dt><dd id="preview-subject"></dd><dt>학습 목표</dt><dd id="preview-goal"></dd><dt>하루 학습 시간</dt><dd id="preview-time"></dd><dt>주 5일 학습 시간</dt><dd id="preview-week"></dd><dt>이메일 (발송되지 않음)</dt><dd id="preview-email"></dd></dl></div>
+                <div class="actions"><button type="button" id="edit-button" class="secondary-button">이전: 내용 수정</button><button type="button" id="finish-button">계획 확정</button></div>
+            </div>
+            <div id="flow-complete" class="flow-panel" hidden>
+                <h3 tabindex="-1">학습 계획 만들기 완료!</h3>
+                <p id="complete-message" class="feedback success"></p>
+                <p>계획이 현재 화면에 확정되었어요. 새로고침 전에 내용을 따로 기록해두세요.</p>
+                <div id="complete-summary" class="plan-preview"></div>
+                <button type="button" id="restart-button">다시 시작</button>
+            </div>
+            <noscript><p>학습 계획 만들기를 이용하려면 브라우저에서 JavaScript를 켜주세요.</p></noscript>
         </section>
     </main>
     <footer>
